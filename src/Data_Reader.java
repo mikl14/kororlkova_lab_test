@@ -38,7 +38,6 @@ public class Data_Reader
 
         NodeList nodeList = root.getChildNodes();
 
-        String[] arr = new String[10];
         ArrayList<Element> lst = new ArrayList<Element>();
 
         for(int i = 0; i < nodeList.getLength();i++)
@@ -48,9 +47,6 @@ public class Data_Reader
             {
                 Element element = (Element) node;
                 lst.add(element);
-                //System.out.println(element.getTagName());
-                //System.out.println(lst.get(i));
-
             }
         }
 
@@ -79,7 +75,6 @@ public class Data_Reader
         for(int i = 0; i < lst.size();i++)
         {
             nodeList = lst.get(i).getChildNodes();
-            //System.out.println(elements.get(i).getTagName());
 
             for(int j = 0 ; j < nodeList.getLength();j++)
             {
@@ -87,8 +82,6 @@ public class Data_Reader
                 if(node.getNodeType() == Node.ELEMENT_NODE)
                 {
                     Element element = (Element) node;
-                    //elements.add(element);
-                    //Tmi_IN = element.getAttribute("in");
                     if(!lst.contains(element))
                     {
                         new_lst.add(element);
@@ -109,9 +102,7 @@ public class Data_Reader
         for (Element elem: lst)
         {
             nodeList = elem.getElementsByTagName("Param");
-            descriptNodelist = elem.getElementsByTagName("Description");
             TextsList = elem.getElementsByTagName("Textes");
-            //TextList = elem.getElementsByTagName("Text");
 
             for (int i = 0; i < nodeList.getLength(); i++) {
                 Node node = nodeList.item(i);
@@ -131,9 +122,6 @@ public class Data_Reader
                          datas.get(i).SetDescription("-");
                      }
 
-
-                    // for(int j = 0 ; j < TextsList.getLength();j++)
-                    // {
                         try
                         {
 
@@ -149,11 +137,9 @@ public class Data_Reader
                              {
                                  Element elementText = (Element) nodeText;
                                  lines.add(elementText.getTextContent());
-                                 //datas.get(i).AddTextes(elementText.getTextContent());
 
                              }
-                            // Node nodeText = TextList.item(o);
-                           //  Node nodeText = TextList.item(j);
+
                          }
 
                         }
@@ -169,18 +155,10 @@ public class Data_Reader
 
                      datas.get(i).print();
                      System.out.println("/////");
-                    //Dim_OUT = element.getAttribute("out");
                 }
             }
 
-
-
         }
-
-
-
-
-
 
     }
 
