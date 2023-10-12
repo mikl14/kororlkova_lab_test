@@ -12,13 +12,44 @@ import java.util.*;
 
 public class Data_Reader
 {
-    private ArrayList<Telemetry_data> datas= new ArrayList<Telemetry_data>();
+    public Map<Integer,Telemetry_data> XML_datas = new HashMap<>();
 
-    private ArrayList<String> lines = new ArrayList<String>();
+    public Map<Integer,String> ION_datas = new HashMap<>();
 
-    Data_Reader(String path)
+    Config config;
+
+    Data_Reader(Config config)
     {
+        this.config = config;
+    }
 
+    public void Read_Demention()
+    {
+        String path = config.Dim_IN;
+        File file = new File(path);
+        int index = 1;
+        try(BufferedReader br = new BufferedReader(new FileReader(file)))
+        {
+             String line;
+             while ((line = br.readLine()) != null)
+             {
+                 if(line.length() > 0)
+                 {
+                     ION_datas.put(index,line);
+                     System.out.println(index + " " + line);
+                 }
+                 index++;
+             }
+        }
+        catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public void Xml_Read_data()
+    {
+        String path = config.Dataxml_IN;
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         DocumentBuilder builder = null;
         try {
@@ -50,117 +81,74 @@ public class Data_Reader
             }
         }
 
-       lst = Insider(lst,nodeList,3);
-        AddData_to_datas(lst,nodeList);
+        AddData_to_datas(lst);
     }
 
-    ArrayList<Element> Insider(ArrayList<Element> lst,NodeList nodeList,int level )
+
+    private String Get_Description(Element elem)
     {
-        if(level == 0)
-        {
-            level = Inside_Tags(lst,nodeList).size();
-        }
-        while(level > 0)   // можно перенести в метод и контролить глубину вхождения во вложеность
-        {
-            lst = Inside_Tags(lst,nodeList);
-            level--;
-        }
-        return lst;
+        NodeList nodeList = elem.getChildNodes();
 
-    }
-    ArrayList<Element> Inside_Tags(ArrayList<Element> lst,NodeList nodeList)
-    {
-        ArrayList<Element> new_lst = new ArrayList<Element>();
-
-        for(int i = 0; i < lst.size();i++)
+        for (int i = 0; i < nodeList.getLength(); i++)
         {
-            nodeList = lst.get(i).getChildNodes();
-
-            for(int j = 0 ; j < nodeList.getLength();j++)
+            Node node = nodeList.item(i);
+            if(((Element)node).getTagName() == "Description")
             {
-                Node node = nodeList.item(j);
-                if(node.getNodeType() == Node.ELEMENT_NODE)
-                {
-                    Element element = (Element) node;
-                    if(!lst.contains(element))
-                    {
-                        new_lst.add(element);
-                    }
-
-
-                }
+                return ((Element)node).getTextContent();
             }
-        }
 
-        return new_lst;
+        }
+        return "";
+
     }
 
-    void AddData_to_datas(ArrayList<Element> lst,NodeList nodeList)
+    private String[] Get_Text(Element elem)
     {
-        NodeList descriptNodelist;
-        NodeList TextList,TextsList;
+        NodeList nodeList = elem.getElementsByTagName("Text");
+
+        ArrayList<String> textes = new ArrayList<String>();
+
+        for (int i = 0; i < nodeList.getLength(); i++)
+        {
+            Node node = nodeList.item(i);
+            if (node.getNodeType() == Node.ELEMENT_NODE)
+            {
+                textes.add(((Element)node).getTextContent());
+            }
+
+        }
+        return textes.toArray(new String[0]);
+
+    }
+
+    void AddData_to_datas(ArrayList<Element> lst)
+    {
+        NodeList nodeList;
+
         for (Element elem: lst)
         {
             nodeList = elem.getElementsByTagName("Param");
-            TextsList = elem.getElementsByTagName("Textes");
+
 
             for (int i = 0; i < nodeList.getLength(); i++) {
                 Node node = nodeList.item(i);
-
+                Telemetry_data buf ;
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
-                    Element element = (Element) node;
 
-                     datas.add(new Telemetry_data(element.getAttribute("name"),element.getAttribute("number")));
+                            buf = new Telemetry_data(((Element) node).getTagName(),Integer.parseInt(((Element) node).getAttribute("number")));
+                            buf.SetDescription( Get_Description((Element) node));
 
-                     try
-                     {
-                         descriptNodelist = ((Element) node).getElementsByTagName("Description");
-                         datas.get(i).SetDescription(descriptNodelist.item(0).getTextContent());
-                     }
-                     catch (Exception e)
-                     {
-                         datas.get(i).SetDescription("-");
-                     }
+                            buf.SetTextes(Get_Text(((Element) node)));
+                            String[] textes = Get_Text(((Element) node));
 
-                        try
-                        {
-
-                         TextList = ((Element) node).getElementsByTagName("Text");
-                         Node nodeText = TextsList.item(i);
-                         System.out.println(" ");
-
-                         for(int k = 0 ; k < TextList.getLength();k++)
-                         {
-                             nodeText = TextList.item(k);
-
-                             if (nodeText.getNodeType() == Node.ELEMENT_NODE)
-                             {
-                                 Element elementText = (Element) nodeText;
-                                 lines.add(elementText.getTextContent());
-
-                             }
-
-                         }
-
-                        }
-                        catch (Exception e)
-                        {
-                            lines.add(" ");
-                        }
-
-                            datas.get(i).AddTextes(lines);
-
-                            lines.clear();
-
-
-                     datas.get(i).print();
-                     System.out.println("/////");
+                            XML_datas.put(buf.GetParamNumber(),buf);
                 }
+
             }
-
         }
-
+        //datas.get(5107).print();
     }
+
 
 
 }

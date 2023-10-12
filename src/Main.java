@@ -7,8 +7,15 @@ public class Main {
 
         configer.print();
 
-        Data_Reader ss = new Data_Reader(configer.Dataxml_IN);
+        Data_Reader ss = new Data_Reader(configer);
 
+        ss.Xml_Read_data();
+
+        ss.Read_Demention();
+
+        Data_Writer wr = new Data_Writer();
+
+        wr.Create_txt(configer.Dataxml_OUT,ss.XML_datas);
 
 
         // Data_Reader dr = new Data_Reader("C:\\Users\\mikle\\Desktop\\KNP-173.14.33.58.dat.xml");
