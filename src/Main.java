@@ -15,7 +15,11 @@ public class Main {
 
         Data_Writer wr = new Data_Writer();
 
-        wr.Create_txt(configer.Dataxml_OUT,ss.XML_datas);
+        wr.Create_ION_txt(configer.Dim_OUT,ss.ION_datas);
+
+        wr.Create_XML_txt(configer.Dataxml_OUT,ss.XML_datas);
+
+
 
 
         // Data_Reader dr = new Data_Reader("C:\\Users\\mikle\\Desktop\\KNP-173.14.33.58.dat.xml");

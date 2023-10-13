@@ -1,12 +1,12 @@
 import java.util.*;
 
 public class Telemetry_data {
-   static public String Param_name;
+   public String Param_name;
 
-   static public  int Param_number;
-    static public String[] Textes_datas ;
+    public  int Param_number;
+    public String[] Textes_datas ;
 
-    static public String Description;
+    public String Description;
 
 
     Telemetry_data(String name, int number)
@@ -61,7 +61,7 @@ public class Telemetry_data {
             str_buf += str + ",";
         }
         //str_buf += str_buf.substring(0,str_buf.length()-1);
-      System.out.println(Param_name + " " + Param_number +" "+Description);
+        System.out.println(Param_name + " " + Param_number +" "+Description);
 
         System.out.println( str_buf );
     }

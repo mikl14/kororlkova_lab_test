@@ -2,6 +2,8 @@
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
+ion.txt
+numName.txt
 
 ### Eclipse ###
 .apt_generated

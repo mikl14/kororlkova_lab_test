@@ -36,7 +36,7 @@ public class Data_Reader
                  if(line.length() > 0)
                  {
                      ION_datas.put(index,line);
-                     System.out.println(index + " " + line);
+                   //  System.out.println(line);
                  }
                  index++;
              }
@@ -139,16 +139,14 @@ public class Data_Reader
                             buf.SetDescription( Get_Description((Element) node));
 
                             buf.SetTextes(Get_Text(((Element) node)));
-                            String[] textes = Get_Text(((Element) node));
 
                             XML_datas.put(buf.GetParamNumber(),buf);
+
+
                 }
 
             }
         }
-        //datas.get(5107).print();
+
     }
-
-
-
 }
