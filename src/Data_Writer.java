@@ -1,7 +1,5 @@
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
-import java.util.ArrayList;
 import java.util.Map;
 
 public class Data_Writer
@@ -12,7 +10,6 @@ public class Data_Writer
        {
            BufferedWriter writer = new BufferedWriter(new FileWriter(path));
 
-           System.out.println(datas.size());
            for (Map.Entry<Integer,Telemetry_data> entry : datas.entrySet())
            {
                writer.write(entry.getValue().ToString());
