@@ -4,6 +4,7 @@ out/
 !**/src/test/**/out/
 ion.txt
 numName.txt
+config.xml
 
 ### Eclipse ###
 .apt_generated

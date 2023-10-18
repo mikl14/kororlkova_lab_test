@@ -33,7 +33,7 @@ public class Config
         }
         Document document = null;
         try {
-            document = builder.parse(new File("C:\\Users\\mikle\\IdeaProjects\\kororlkova_lab_test\\src\\config.xml"));
+            document = builder.parse(new File("D:\\kororlkova_lab_test\\src\\config.xml"));
         } catch (SAXException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {

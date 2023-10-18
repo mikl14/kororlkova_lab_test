@@ -13,6 +13,8 @@ public class Main {
 
         ss.Read_Demention();
 
+        ss.Read_KNP();
+
         Data_Writer wr = new Data_Writer();
 
         wr.Create_ION_txt(configer.Dim_OUT,ss.ION_datas);

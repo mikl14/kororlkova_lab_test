@@ -23,6 +23,24 @@ public class Data_Reader
         this.config = config;
     }
 
+    public void Read_KNP(){
+        try {
+            File file = new File(config.Tmi_IN);
+            FileInputStream fileInputStream = new FileInputStream(file);
+            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                System.out.println(line);
+            }
+            bufferedReader.close();
+            inputStreamReader.close();
+            fileInputStream.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void Read_Demention()
     {
         String path = config.Dim_IN;
