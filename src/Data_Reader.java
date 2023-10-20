@@ -1,3 +1,4 @@
+import Tm_dat.TM_base;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -16,6 +17,10 @@ public class Data_Reader
 
     public Map<Integer,String> ION_datas = new HashMap<>();
 
+    int[] values = new int[10];
+
+    public Map<Integer,TM_base> TMS = new HashMap<>();
+
     Config config;
 
     Data_Reader(Config config)
@@ -23,22 +28,56 @@ public class Data_Reader
         this.config = config;
     }
 
+
+    public void ParceTm()
+    {
+        TM_base tm;
+        for(int i = 0; i < values.length;i+=15)
+        {
+            if(values[i] != 0xffff) {
+                tm = Get_TM(i);
+                TMS.put(tm.param_number, tm);
+                //i += 7 + tm.size;
+            }
+
+        }
+    }
+    public TM_base Get_TM(int start_index)
+    {
+        TM_base tm = new TM_base();
+
+        tm.setParam_number(values[start_index + 0] + values[start_index+1]);
+
+        int buf = 0;
+        for(int i = start_index+2;i < 6;i++) buf += values[start_index+ i];
+
+        tm.setParam_time(buf);
+        tm.setSize(values[start_index + 6]);
+        tm.setAtrib(values[start_index + 7]);
+        tm.print();
+        return tm;
+    }
     public void Read_KNP(){
+        byte[] bytes = new byte[1];
         try {
             File file = new File(config.Tmi_IN);
             FileInputStream fileInputStream = new FileInputStream(file);
-            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                System.out.println(line);
-            }
-            bufferedReader.close();
-            inputStreamReader.close();
+
+            bytes = fileInputStream.readAllBytes();
+
             fileInputStream.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        values = new int[bytes.length];
+
+        for(int i = 0 ; i < bytes.length;i++)
+        {
+            values[i] = bytes[i] &  0xFF;
+        }
+
+
     }
 
     public void Read_Demention()

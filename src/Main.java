@@ -15,7 +15,10 @@ public class Main {
 
         ss.Read_KNP();
 
+        ss.ParceTm();
+
         Data_Writer wr = new Data_Writer();
+
 
         wr.Create_ION_txt(configer.Dim_OUT,ss.ION_datas);
 
