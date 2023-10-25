@@ -1,9 +1,14 @@
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Random;
+
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) {
 
-        Config configer = new Config();
+         Config configer = new Config();
 
         configer.print();
 
@@ -27,6 +32,11 @@ public class Main {
 
 
 
+
+
+
         // Data_Reader dr = new Data_Reader("C:\\Users\\mikle\\Desktop\\KNP-173.14.33.58.dat.xml");
     }
+
+
 }

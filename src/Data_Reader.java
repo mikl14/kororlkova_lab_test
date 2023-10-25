@@ -24,6 +24,7 @@ public class Data_Reader
 
     public Map<Short,TM_base> TMS = new HashMap<>();
 
+    public Map<Integer,Tm_message> Messages = new HashMap<>();
     Config config;
 
     Data_Reader(Config config)
@@ -35,22 +36,71 @@ public class Data_Reader
     public void ParceTm()
     {
         TM_base tm;
-        Tm_message mes;
+        Tm_message mes = new Tm_message((short)0xffff);
         byte prev_byte = 0;
-        int counter = 0;
+        int byte_counter = 0;
+        boolean is_message = false;
 
         for(byte current_byte : bytes)
         {
-                if((((short)(current_byte + prev_byte)) & 0xffff) >= 0xffff)
+
+                if((((short)(current_byte + prev_byte)) & 0xffff) == 0xffff)
                 {
-                    //mes = new Tm_message((short)(current_byte + prev_byte));
+
+                    mes = new Tm_message((short)(current_byte + prev_byte));
+                    //Messages.put(counter,mes);
+
                     //mes.print();
-                    counter++;
+
+                    is_message = true;
+                    byte_counter = 2;
+                    continue;
                 }
+                if(is_message)
+                {
+                    if(byte_counter != 5)
+                    {
+                        mes.time += current_byte;
+                    }
+                    if(byte_counter == 6)
+                    {
+
+                        mes.SetMessageType(current_byte);
+
+
+                    }
+                    if(byte_counter == 7)
+                    {
+                        mes.SetTypeData(current_byte);
+                        if(mes.type_message >= 0 && mes.type_data >= 0)
+                        {
+                            mes.print();
+                        }
+                    }
+                    if(byte_counter == 8)
+                    {
+                        byte_counter = 0;
+                        is_message = false;
+                        continue;
+                    }
+
+                    byte_counter++;
+                }
+
+
+
+                    //Messages.put(counter,mes);
+
+
+
             prev_byte = current_byte;
 
         }
-        System.out.println(counter);
+
+
+
+
+      // System.out.println(counter);
     }
     public TM_base Get_TM(int start_index)
     {
