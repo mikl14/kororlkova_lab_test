@@ -1,9 +1,11 @@
 package Tm_dat;
 
 public class TM_base {
-    public int param_number,param_time,size,atrib;
+    public short param_number;
+    public int param_time;
+    public byte size,atrib;
 
-    public void setTM(int number,int time, byte size,byte atrib)
+    public void setTM(short number,int time, byte size,byte atrib)
     {
         param_number = number;
         param_time = time;
@@ -11,11 +13,11 @@ public class TM_base {
         this.atrib = atrib;
     }
 
-    public void setParam_number(int param_number) {
+    public void setParam_number(short param_number) {
         this.param_number = param_number;
     }
 
-    public void setAtrib(int atrib) {
+    public void setAtrib(byte atrib) {
         this.atrib = atrib;
     }
 
@@ -23,7 +25,7 @@ public class TM_base {
         this.param_time = param_time;
     }
 
-    public void setSize(int size) {
+    public void setSize(byte size) {
         this.size = size;
         if(size > 255)
         {
@@ -31,7 +33,8 @@ public class TM_base {
         }
     }
 
-    public void print()
+
+    public String parce_type()
     {
         String atrib_name = "";
         switch (atrib)
@@ -49,11 +52,16 @@ public class TM_base {
                 atrib_name = "Point";
                 break;
         }
-        if(atrib_name == "")
+        return atrib_name;
+    }
+    public void print()
+    {
+
+        if(parce_type() == "")
         {
             System.out.println("number: "+param_number + " time: " + param_time + " size "+size + " atrib: " + atrib);
             return;
         }
-        System.out.println("number: "+param_number + " time: " + param_time + " size "+size + " atrib: " + atrib_name);
+        System.out.println("number: "+param_number + " time: " + param_time + " size "+size + " atrib: " + parce_type());
     }
 }

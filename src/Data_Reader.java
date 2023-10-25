@@ -1,4 +1,5 @@
 import Tm_dat.TM_base;
+import Tm_dat.Tm_message;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -19,7 +20,9 @@ public class Data_Reader
 
     int[] values = new int[10];
 
-    public Map<Integer,TM_base> TMS = new HashMap<>();
+    byte[] bytes = new byte[1];
+
+    public Map<Short,TM_base> TMS = new HashMap<>();
 
     Config config;
 
@@ -32,33 +35,40 @@ public class Data_Reader
     public void ParceTm()
     {
         TM_base tm;
-        for(int i = 0; i < values.length;i+=15)
+        Tm_message mes;
+        byte prev_byte = 0;
+        int counter = 0;
+
+        for(byte current_byte : bytes)
         {
-            if(values[i] != 0xffff) {
-                tm = Get_TM(i);
-                TMS.put(tm.param_number, tm);
-                //i += 7 + tm.size;
-            }
+                if((((short)(current_byte + prev_byte)) & 0xffff) >= 0xffff)
+                {
+                    //mes = new Tm_message((short)(current_byte + prev_byte));
+                    //mes.print();
+                    counter++;
+                }
+            prev_byte = current_byte;
 
         }
+        System.out.println(counter);
     }
     public TM_base Get_TM(int start_index)
     {
         TM_base tm = new TM_base();
 
-        tm.setParam_number(values[start_index + 0] + values[start_index+1]);
+        tm.setParam_number((short) (bytes[start_index + 0] + bytes[start_index+1]));
 
         int buf = 0;
         for(int i = start_index+2;i < 6;i++) buf += values[start_index+ i];
 
         tm.setParam_time(buf);
-        tm.setSize(values[start_index + 6]);
-        tm.setAtrib(values[start_index + 7]);
+        tm.setSize(bytes[start_index + 6]);
+        tm.setAtrib(bytes[start_index + 7]);
         tm.print();
         return tm;
     }
     public void Read_KNP(){
-        byte[] bytes = new byte[1];
+
         try {
             File file = new File(config.Tmi_IN);
             FileInputStream fileInputStream = new FileInputStream(file);
