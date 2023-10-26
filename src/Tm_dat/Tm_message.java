@@ -10,12 +10,8 @@ public class Tm_message
 
     public Tm_message(short number)
     {
-        if((number & 0xffff) >= 0xffff)
-        {
+
            param_number = number;
-           return;
-        }
-        throw new RuntimeException("Not message");
     }
 
     public void SetMessageType(byte mestype)
@@ -47,7 +43,7 @@ public class Tm_message
         System.out.println(param_number + " " +unixTimeToString(time) + " " + type_message + " " + type_data);
     }
 
-    private static String unixTimeToString(long unixTime) {
+    static String unixTimeToString(long unixTime) {
         Date date = new Date(unixTime * 1000L);
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
         return sdf.format(date);

@@ -1,5 +1,6 @@
 import Tm_dat.TM_base;
 import Tm_dat.Tm_message;
+import Tm_dat.Tm_message_start;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -40,17 +41,19 @@ public class Data_Reader
         byte prev_byte = 0;
         int byte_counter = 0;
         boolean is_message = false;
+        byte[] message_title = new byte[8];
+        Tm_message_start mes_start = new Tm_message_start((short)0xffff);
 
         for(byte current_byte : bytes)
         {
 
-                if((((short)(current_byte + prev_byte)) & 0xffff) == 0xffff)
+                if(((current_byte&0xFF) == 0xFF & (prev_byte&0xFF) == 0xFF))
                 {
-
+                    byte_counter++;
                     mes = new Tm_message((short)(current_byte + prev_byte));
                     //Messages.put(counter,mes);
 
-                    //mes.print();
+
 
                     is_message = true;
                     byte_counter = 2;
@@ -64,7 +67,6 @@ public class Data_Reader
                     }
                     if(byte_counter == 6)
                     {
-
                         mes.SetMessageType(current_byte);
 
 
@@ -72,19 +74,30 @@ public class Data_Reader
                     if(byte_counter == 7)
                     {
                         mes.SetTypeData(current_byte);
-                        if(mes.type_message >= 0 && mes.type_data >= 0)
-                        {
-                            mes.print();
-                        }
+                        //mes.print();
                     }
-                    if(byte_counter == 8)
+                    if(byte_counter >= 8)
                     {
-                        byte_counter = 0;
-                        is_message = false;
-                        continue;
+
+
+                        message_title[byte_counter - 8] = current_byte;
+                        if(byte_counter ==15) {
+                            if (mes.type_message == 1) {
+                                mes_start = new Tm_message_start(mes);
+                                mes_start.Parse_message(message_title);
+                                mes_start.print();
+
+                            }
+                            is_message = false;
+                            byte_counter = 0;
+                        }
+                        //continue;*/
+
+
+
                     }
 
-                    byte_counter++;
+
                 }
 
 
@@ -93,9 +106,11 @@ public class Data_Reader
 
 
 
-            prev_byte = current_byte;
+                    prev_byte = current_byte;
+                    byte_counter++;
 
         }
+//        System.out.println(byte_counter);
 
 
 
