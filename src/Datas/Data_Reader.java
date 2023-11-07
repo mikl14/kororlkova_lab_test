@@ -2,6 +2,7 @@ package Datas;
 
 import Config.Config;
 import Tm_dat.TM_base;
+import Tm_dat.Tm_DataRecords.Tm_dataBuilder;
 import Tm_dat.Tm_messages.Tm_message;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -63,18 +64,30 @@ public class Data_Reader
                     }
                     record = new Tm_message(paramNum, bTime, bMes, bZnach, bData);
                     record.print();
-
                 }
+                else{                                           // Обычная
+                    byte dim = recordInBytes[6];
+                    byte atr_type = recordInBytes[7];
+                    byte[] bData = Arrays.copyOfRange(recordInBytes, 8, 16);
+                    if((atr_type&0x0F) == 3){
+                        int extraDataSize = ((Byte.toUnsignedInt(recordInBytes[10]) << 8) + Byte.toUnsignedInt(recordInBytes[11])) - 4;
+                        byte[] extraData = new byte[extraDataSize];
+                        fileInputStream.read(extraData);
+
+                        byte[] buff = bData;
+                        bData = new byte[extraDataSize + 8];
+                        System.arraycopy(buff, 0, bData, 0, 8);
+                        System.arraycopy(extraData, 0, bData, 8, extraDataSize);
+                    }
+                    record = Tm_dataBuilder.createDataRecord(paramNum, bTime, dim, atr_type, bData);
+                }
+                datbuf.putRecord(record);
 
             }
-
         }
        catch (IOException e) {
             throw new RuntimeException(e);
         }
-
-
-
     }
     public void Read_KNP(){
 

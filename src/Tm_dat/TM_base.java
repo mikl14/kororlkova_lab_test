@@ -1,5 +1,7 @@
 package Tm_dat;
 
+import Datas.Data_Buffer;
+
 import java.nio.ByteBuffer;
 
 public abstract class TM_base {
@@ -11,12 +13,19 @@ public abstract class TM_base {
     public int param_time;
     public byte size;
 
+    protected String paramName;
+
+    Data_Buffer databuf = new Data_Buffer();
+
     public boolean isTech;
 
     public TM_base(byte[] _paramNum, byte[] _time,Boolean _isTech)
     {
         param_number  = ByteBuffer.wrap(_paramNum).getShort();
         param_time = ByteBuffer.wrap(_time).getInt();
+        if(param_number > -1) {
+            paramName = databuf.getParamName(param_number);
+        }
         isTech = _isTech;
     }
 

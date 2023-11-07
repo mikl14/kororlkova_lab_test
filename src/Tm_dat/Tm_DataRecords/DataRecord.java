@@ -1,9 +1,18 @@
 package Tm_dat.Tm_DataRecords;
 
+import Datas.Data_Buffer;
 import Tm_dat.TM_base;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DataRecord extends TM_base
 {
+    Data_Buffer databuf = new Data_Buffer();
 
     String razmernost;
 
@@ -15,7 +24,7 @@ public class DataRecord extends TM_base
         if(razmNum == 18){
             razmernost = "TEXT";
         }else{
-           // razmernost = dimParser.getRazm(razmNum);
+            razmernost = databuf.getRazm(razmNum);
         }
         data = _data;
     }
@@ -29,4 +38,6 @@ public class DataRecord extends TM_base
     public void print() {
 
     }
+
+
 }
