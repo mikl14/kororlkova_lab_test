@@ -1,4 +1,4 @@
-package Tm_dat;
+package Tm_dat.Tm_messages;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -12,6 +12,13 @@ public class Tm_message
     {
 
            param_number = number;
+    }
+
+    public Tm_message(Tm_message mes) {
+        param_number = mes.param_number;
+        time = mes.time;
+        type_message = mes.type_message;
+        type_data = mes.type_data;
     }
 
     public void SetMessageType(byte mestype)
@@ -46,6 +53,12 @@ public class Tm_message
     static String unixTimeToString(long unixTime) {
         Date date = new Date(unixTime * 1000L);
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        return sdf.format(date);
+    }
+    static String unixDateToString(long unixTime) {
+        long date = (new Date().getTime()/((1000*60*60*24) - 3653));
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy:MM:dd");
         return sdf.format(date);
     }
 

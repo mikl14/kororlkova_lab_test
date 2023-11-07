@@ -1,6 +1,7 @@
 import Tm_dat.TM_base;
-import Tm_dat.Tm_message;
-import Tm_dat.Tm_message_start;
+import Tm_dat.Tm_messages.Tm_message;
+import Tm_dat.Tm_messages.Tm_message_start;
+import Tm_dat.Tm_messages.Tm_message_time;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -25,7 +26,7 @@ public class Data_Reader
 
     public Map<Short,TM_base> TMS = new HashMap<>();
 
-    public Map<Integer,Tm_message> Messages = new HashMap<>();
+    public Map<String,Tm_message> Messages = new HashMap<>();
     Config config;
 
     Data_Reader(Config config)
@@ -39,7 +40,7 @@ public class Data_Reader
         TM_base tm;
         Tm_message mes = new Tm_message((short)0xffff);
         byte prev_byte = 0;
-        int byte_counter = 0;
+        int byte_counter = 0,counter = 0;
         boolean is_message = false;
         byte[] message_title = new byte[8];
         Tm_message_start mes_start = new Tm_message_start((short)0xffff);
@@ -49,72 +50,63 @@ public class Data_Reader
 
                 if(((current_byte&0xFF) == 0xFF & (prev_byte&0xFF) == 0xFF))
                 {
-                    byte_counter++;
                     mes = new Tm_message((short)(current_byte + prev_byte));
                     //Messages.put(counter,mes);
-
-
-
                     is_message = true;
                     byte_counter = 2;
+
                     continue;
                 }
                 if(is_message)
                 {
-                    if(byte_counter != 5)
+                    if(byte_counter < 5)
                     {
                         mes.time += current_byte;
                     }
                     if(byte_counter == 6)
                     {
                         mes.SetMessageType(current_byte);
-
-
                     }
                     if(byte_counter == 7)
                     {
                         mes.SetTypeData(current_byte);
+                        counter++;
                         //mes.print();
                     }
                     if(byte_counter >= 8)
                     {
-
-
                         message_title[byte_counter - 8] = current_byte;
                         if(byte_counter ==15) {
-                            if (mes.type_message == 1) {
-                                mes_start = new Tm_message_start(mes);
-                                mes_start.Parse_message(message_title);
-                                mes_start.print();
-
+                            switch (mes.type_message)
+                            {
+                                case 0:
+                                    Messages.put("Type:"+mes.type_message+"Number:"+counter,mes);
+                                    break;
+                                case 1:
+                                    mes_start = new Tm_message_start(mes);
+                                    mes_start.Parse_message(message_title);
+                                    Messages.put("Type:"+mes.type_message+"Number:"+counter,mes_start);
+                                    break;
+                                case 2:
+                                    Tm_message_time mes_time = new Tm_message_time(mes);
+                                    mes_time.Parce_time(message_title);
+                                    Messages.put("Type:"+mes.type_message+"Number:" + counter,mes_time);
+                                    mes_time.print();
+                                    break;
                             }
                             is_message = false;
                             byte_counter = 0;
                         }
                         //continue;*/
 
-
-
                     }
-
-
                 }
-
-
-
                     //Messages.put(counter,mes);
-
-
-
                     prev_byte = current_byte;
                     byte_counter++;
 
         }
-//        System.out.println(byte_counter);
-
-
-
-
+        System.out.println(Messages.size());
       // System.out.println(counter);
     }
     public TM_base Get_TM(int start_index)

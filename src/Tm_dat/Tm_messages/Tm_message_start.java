@@ -1,4 +1,4 @@
-package Tm_dat;
+package Tm_dat.Tm_messages;
 
 public class Tm_message_start extends Tm_message{
 
@@ -14,8 +14,6 @@ public class Tm_message_start extends Tm_message{
         time = mes.time;
         type_message = mes.type_message;
         type_data = mes.type_data;
-
-
     }
 
     public void Parse_message(byte[] bytemass)
