@@ -1,24 +1,20 @@
 package Tm_dat.Tm_messages;
+import Tm_dat.TM_base;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Tm_message
+public class Tm_message extends TM_base
 {
-    short param_number;
-    public int time;
     public byte type_message,type_data;
 
-    public Tm_message(short number)
+    public Tm_message(byte[] _paramNum, byte[] _time, byte size)
     {
-
-           param_number = number;
+           super(_paramNum,_time,size,true);
     }
 
     public Tm_message(Tm_message mes) {
-        param_number = mes.param_number;
-        time = mes.time;
-        type_message = mes.type_message;
-        type_data = mes.type_data;
+        super(mes);
     }
 
     public void SetMessageType(byte mestype)
@@ -44,22 +40,13 @@ public class Tm_message
     }
 
 
+    public String ToString() {
+        return param_number + " " +getTimeString() + " " + type_message + " " + type_data;
+    }
 
     public void print()
     {
-        System.out.println(param_number + " " +unixTimeToString(time) + " " + type_message + " " + type_data);
-    }
-
-    static String unixTimeToString(long unixTime) {
-        Date date = new Date(unixTime * 1000L);
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-        return sdf.format(date);
-    }
-    static String unixDateToString(long unixTime) {
-        long date = (new Date().getTime()/((1000*60*60*24) - 3653));
-
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy:MM:dd");
-        return sdf.format(date);
+        System.out.println(param_number + " " +getTimeString() + " " + type_message + " " + type_data);
     }
 
 }

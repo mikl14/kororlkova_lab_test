@@ -38,78 +38,36 @@ public class Data_Reader
     public void ParceTm()
     {
         TM_base tm;
-        Tm_message mes = new Tm_message((short)0xffff);
         byte prev_byte = 0;
         int byte_counter = 0,counter = 0;
         boolean is_message = false;
         byte[] message_title = new byte[8];
-        Tm_message_start mes_start = new Tm_message_start((short)0xffff);
+        //Tm_message_start mes_start = new Tm_message_start((short)0xffff);
 
-        for(byte current_byte : bytes)
-        {
+        File file = new File(config.Tmi_IN);
 
-                if(((current_byte&0xFF) == 0xFF & (prev_byte&0xFF) == 0xFF))
-                {
-                    mes = new Tm_message((short)(current_byte + prev_byte));
-                    //Messages.put(counter,mes);
-                    is_message = true;
-                    byte_counter = 2;
+        try(FileInputStream fileInputStream = new FileInputStream(file)) {
 
-                    continue;
+            byte[] recordInBytes = new byte[16];
+            while (fileInputStream.read(recordInBytes) != -1) {
+                byte[] paramNum = Arrays.copyOf(recordInBytes, 2);
+                byte[] bTime = Arrays.copyOfRange(recordInBytes, 2, 6);
+                TM_base record;
+                if ((paramNum[0] & 0xFF) == 0xFF && (paramNum[1] & 0xFF) == 0xFF) { // Служебная
+
                 }
-                if(is_message)
-                {
-                    if(byte_counter < 5)
-                    {
-                        mes.time += current_byte;
-                    }
-                    if(byte_counter == 6)
-                    {
-                        mes.SetMessageType(current_byte);
-                    }
-                    if(byte_counter == 7)
-                    {
-                        mes.SetTypeData(current_byte);
-                        counter++;
-                        //mes.print();
-                    }
-                    if(byte_counter >= 8)
-                    {
-                        message_title[byte_counter - 8] = current_byte;
-                        if(byte_counter ==15) {
-                            switch (mes.type_message)
-                            {
-                                case 0:
-                                    Messages.put("Type:"+mes.type_message+"Number:"+counter,mes);
-                                    break;
-                                case 1:
-                                    mes_start = new Tm_message_start(mes);
-                                    mes_start.Parse_message(message_title);
-                                    Messages.put("Type:"+mes.type_message+"Number:"+counter,mes_start);
-                                    break;
-                                case 2:
-                                    Tm_message_time mes_time = new Tm_message_time(mes);
-                                    mes_time.Parce_time(message_title);
-                                    Messages.put("Type:"+mes.type_message+"Number:" + counter,mes_time);
-                                    mes_time.print();
-                                    break;
-                            }
-                            is_message = false;
-                            byte_counter = 0;
-                        }
-                        //continue;*/
 
-                    }
-                }
-                    //Messages.put(counter,mes);
-                    prev_byte = current_byte;
-                    byte_counter++;
+            }
 
         }
-        System.out.println(Messages.size());
-      // System.out.println(counter);
+       catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+
     }
-    public TM_base Get_TM(int start_index)
+ /*   public TM_base Get_TM(int start_index)
     {
         TM_base tm = new TM_base();
 
@@ -123,7 +81,7 @@ public class Data_Reader
         tm.setAtrib(bytes[start_index + 7]);
         tm.print();
         return tm;
-    }
+    }*/
     public void Read_KNP(){
 
         try {

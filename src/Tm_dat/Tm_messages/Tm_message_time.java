@@ -23,7 +23,8 @@ public class Tm_message_time extends Tm_message
 
     public void print()
     {
-        System.out.println(param_number + " " +unixTimeToString(time) + " " + type_message + " " + type_data + " date: " + date);
+        return;
+      //  System.out.println(param_number + " " +unixTimeToString(time) + " " + type_message + " " + type_data + " date: " + date);
     }
 
 }

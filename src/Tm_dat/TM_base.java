@@ -1,25 +1,40 @@
 package Tm_dat;
 
-public class TM_base {
+import java.nio.ByteBuffer;
+
+public abstract class TM_base {
+
+    protected final static int SEC = 1000;
+    protected final static int MIN = SEC*60;
+    protected final static int HOUR = MIN*60;
     public short param_number;
     public int param_time;
-    public byte size,atrib;
+    public byte size;
 
-    public void setTM(short number,int time, byte size,byte atrib)
+    public boolean isTech;
+
+    public TM_base(byte[] _paramNum, byte[] _time, byte size,Boolean _isTech)
     {
-        param_number = number;
-        param_time = time;
+        param_number  = ByteBuffer.wrap(_paramNum).getShort();
+        param_time = ByteBuffer.wrap(_time).getInt();
         this.size = size;
-        this.atrib = atrib;
+        isTech = _isTech;
     }
+
+    public TM_base(TM_base mes)
+    {
+        param_number = mes.param_number;
+        param_time = mes.param_time;
+        size = mes.size;
+        isTech = mes.isTech;
+    }
+
+
 
     public void setParam_number(short param_number) {
         this.param_number = param_number;
     }
 
-    public void setAtrib(byte atrib) {
-        this.atrib = atrib;
-    }
 
     public void setParam_time(int param_time) {
         this.param_time = param_time;
@@ -33,35 +48,25 @@ public class TM_base {
         }
     }
 
+    protected String getTimeString(){
+        if(param_time < 0) return "NEGATIVE TIME";
+        int buff = param_time, h, m, s;
 
-    public String parce_type()
-    {
-        String atrib_name = "";
-        switch (atrib)
-        {
-            case 0:
-                atrib_name = "Long";
-                break;
-            case 1:
-                atrib_name = "Double";
-                break;
-            case 2:
-                atrib_name = "Code";
-                break;
-            case 3:
-                atrib_name = "Point";
-                break;
-        }
-        return atrib_name;
-    }
-    public void print()
-    {
+        h = buff/HOUR;
+        buff -= HOUR*h;
 
-        if(parce_type() == "")
-        {
-            System.out.println("number: "+param_number + " time: " + param_time + " size "+size + " atrib: " + atrib);
-            return;
-        }
-        System.out.println("number: "+param_number + " time: " + param_time + " size "+size + " atrib: " + parce_type());
+        m = buff/MIN;
+        buff -= MIN*m;
+
+        s = buff/SEC;
+        buff -= SEC*s;
+
+        String result = String.format("%02d:%02d:%02d,%03d", h,m,s,buff);
+
+        return result;
     }
+
+
+    public abstract String ToString();
+    public abstract void print();
 }
