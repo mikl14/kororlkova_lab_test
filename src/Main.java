@@ -1,17 +1,18 @@
+import Config.Config;
+import Datas.Data_Buffer;
+import Datas.Data_Reader;
+import Datas.Data_Writer;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Random;
-import javax.swing.*;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) {
+        Data_Buffer datbuf = new Data_Buffer();
 
         JFrame frame = new JFrame("sss");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -27,6 +28,8 @@ public class Main {
         but.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+
+
                 label.setText("Clicked!");
                 Config configer = new Config();
 
@@ -38,15 +41,15 @@ public class Main {
 
                 ss.Read_Demention();
 
-                ss.Read_KNP();
+                ss.ParceTm();
 
 
                 Data_Writer wr = new Data_Writer();
 
 
-                wr.Create_ION_txt(configer.Dim_OUT,ss.ION_datas);
+                wr.Create_ION_txt(configer.Dim_OUT,datbuf.GetION());
 
-                wr.Create_XML_txt(configer.Dataxml_OUT,ss.XML_datas);
+                wr.Create_XML_txt(configer.Dataxml_OUT,datbuf.GetXML());
             }
         });
 
@@ -60,7 +63,7 @@ public class Main {
         frame.setVisible(true);
         /*ss.ParceTm();
 
-        Data_Writer wr = new Data_Writer();
+        Datas.Data_Writer wr = new Datas.Data_Writer();
 
 
         wr.Create_ION_txt(configer.Dim_OUT,ss.ION_datas);
@@ -73,7 +76,7 @@ public class Main {
 
 
 
-        // Data_Reader dr = new Data_Reader("C:\\Users\\mikle\\Desktop\\KNP-173.14.33.58.dat.xml");
+        // Datas.Data_Reader dr = new Datas.Data_Reader("C:\\Users\\mikle\\Desktop\\KNP-173.14.33.58.dat.xml");
     }
 
 

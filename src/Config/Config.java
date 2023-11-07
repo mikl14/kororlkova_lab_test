@@ -1,3 +1,5 @@
+package Config;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -15,7 +17,7 @@ public class Config
 {
     public static String Tmi_IN,Tmi_OUT,Dataxml_IN,Dataxml_OUT,Dim_IN,Dim_OUT ;
 
-    Config()
+    public Config()
     {
         read();
     }
@@ -33,7 +35,7 @@ public class Config
         }
         Document document = null;
         try {
-            document = builder.parse(new File("src\\config.xml"));
+            document = builder.parse(new File("src\\Config\\config.xml"));
         } catch (SAXException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {

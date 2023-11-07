@@ -1,10 +1,12 @@
+package Datas;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.util.Map;
 
 public class Data_Writer
 {
-   void Create_XML_txt(String path, Map<Integer,Telemetry_data> datas)
+   public void Create_XML_txt(String path, Map<Integer, Telemetry_data> datas)
    {
        try
        {
@@ -24,7 +26,7 @@ public class Data_Writer
    }
 
 
-    void Create_ION_txt(String path, Map<Integer,String> datas)
+    public void Create_ION_txt(String path, Map<Integer, String> datas)
     {
         try
         {

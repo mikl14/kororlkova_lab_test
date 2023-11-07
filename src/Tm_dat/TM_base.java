@@ -13,11 +13,10 @@ public abstract class TM_base {
 
     public boolean isTech;
 
-    public TM_base(byte[] _paramNum, byte[] _time, byte size,Boolean _isTech)
+    public TM_base(byte[] _paramNum, byte[] _time,Boolean _isTech)
     {
         param_number  = ByteBuffer.wrap(_paramNum).getShort();
         param_time = ByteBuffer.wrap(_time).getInt();
-        this.size = size;
         isTech = _isTech;
     }
 
@@ -61,7 +60,7 @@ public abstract class TM_base {
         s = buff/SEC;
         buff -= SEC*s;
 
-        String result = String.format("%02d:%02d:%02d,%03d", h,m,s,buff);
+        String result = String.format("%02d:%02d:%02d", h,m,s);
 
         return result;
     }

@@ -1,7 +1,8 @@
+package Datas;
+
+import Config.Config;
 import Tm_dat.TM_base;
 import Tm_dat.Tm_messages.Tm_message;
-import Tm_dat.Tm_messages.Tm_message_start;
-import Tm_dat.Tm_messages.Tm_message_time;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -16,20 +17,14 @@ import java.util.*;
 
 public class Data_Reader
 {
-    public Map<Integer,Telemetry_data> XML_datas = new HashMap<>();
 
-    public Map<Integer,String> ION_datas = new HashMap<>();
-
+    Data_Buffer datbuf = new Data_Buffer();
     int[] values = new int[10];
-
     byte[] bytes = new byte[1];
 
-    public Map<Short,TM_base> TMS = new HashMap<>();
-
-    public Map<String,Tm_message> Messages = new HashMap<>();
     Config config;
 
-    Data_Reader(Config config)
+    public Data_Reader(Config config)
     {
         this.config = config;
     }
@@ -55,6 +50,20 @@ public class Data_Reader
                 TM_base record;
                 if ((paramNum[0] & 0xFF) == 0xFF && (paramNum[1] & 0xFF) == 0xFF) { // Служебная
 
+                    byte bMes = recordInBytes[6];
+                    byte bZnach = recordInBytes[7];
+                    byte[] bData = Arrays.copyOfRange(recordInBytes, 8, 16);
+                    if(bMes == 1){
+                        byte[] extraData = new byte[16];
+                        fileInputStream.read(extraData);
+                        byte[] buff = bData;
+                        bData = new byte[24];
+                        System.arraycopy(buff, 0, bData, 0, 8);
+                        System.arraycopy(extraData, 0, bData, 8, 16);
+                    }
+                    record = new Tm_message(paramNum, bTime, bMes, bZnach, bData);
+                    record.print();
+
                 }
 
             }
@@ -67,21 +76,6 @@ public class Data_Reader
 
 
     }
- /*   public TM_base Get_TM(int start_index)
-    {
-        TM_base tm = new TM_base();
-
-        tm.setParam_number((short) (bytes[start_index + 0] + bytes[start_index+1]));
-
-        int buf = 0;
-        for(int i = start_index+2;i < 6;i++) buf += values[start_index+ i];
-
-        tm.setParam_time(buf);
-        tm.setSize(bytes[start_index + 6]);
-        tm.setAtrib(bytes[start_index + 7]);
-        tm.print();
-        return tm;
-    }*/
     public void Read_KNP(){
 
         try {
@@ -117,7 +111,7 @@ public class Data_Reader
              {
                  if(line.length() > 0)
                  {
-                     ION_datas.put(index,line);
+                     datbuf.ION_put(index,line);
                    //  System.out.println(line);
                  }
                  index++;
@@ -222,7 +216,7 @@ public class Data_Reader
 
                             buf.SetTextes(Get_Text(((Element) node)));
 
-                            XML_datas.put(buf.GetParamNumber(),buf);
+                            datbuf.XML_put(buf.GetParamNumber(),buf);
 
 
                 }
