@@ -63,7 +63,7 @@ public class Data_Reader
                         System.arraycopy(extraData, 0, bData, 8, 16);
                     }
                     record = new Tm_message(paramNum, bTime, bMes, bZnach, bData);
-                    record.print();
+                    //record.print();
                 }
                 else{                                           // Обычная
                     byte dim = recordInBytes[6];
@@ -80,8 +80,10 @@ public class Data_Reader
                         System.arraycopy(extraData, 0, bData, 8, extraDataSize);
                     }
                     record = Tm_dataBuilder.createDataRecord(paramNum, bTime, dim, atr_type, bData);
+
                 }
                 datbuf.putRecord(record);
+                //record.print();
 
             }
         }
@@ -224,14 +226,13 @@ public class Data_Reader
                 Telemetry_data buf ;
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
 
-                            buf = new Telemetry_data(((Element) node).getTagName(),Integer.parseInt(((Element) node).getAttribute("number")));
+                           // buf = new Telemetry_data(((Element) node).getTagName(),Integer.parseInt(((Element) node).getAttribute("number")));
+                            buf = new Telemetry_data(((Element) node).getAttribute("name"),Integer.parseInt(((Element) node).getAttribute("number")));
                             buf.SetDescription( Get_Description((Element) node));
 
                             buf.SetTextes(Get_Text(((Element) node)));
 
                             datbuf.XML_put(buf.GetParamNumber(),buf);
-
-
                 }
 
             }

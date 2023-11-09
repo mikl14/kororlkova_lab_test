@@ -36,7 +36,7 @@ public class DataRecord extends TM_base
 
     @Override
     public void print() {
-
+        System.out.println("Номер: "+param_number+" Имя: " + paramName);
     }
 
 

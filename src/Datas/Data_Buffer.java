@@ -30,6 +30,8 @@ public class Data_Buffer {
         return ION_datas;
     }
 
+    public  Map<Integer, TM_base> GetRecords(){return Record_datas;}
+
     public String getRazm(int key)
     {
         return ION_datas.get(key);
@@ -38,6 +40,11 @@ public class Data_Buffer {
     public String getParamName(int key)
     {
         return XML_datas.get(key).Param_name;
+    }
+
+    public static String getText(int num){
+
+        return XML_datas.get(num).GetTextes();
     }
 
     public void putRecord(TM_base data)

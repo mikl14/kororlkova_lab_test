@@ -50,6 +50,8 @@ public class Main {
                 wr.Create_ION_txt(configer.Dim_OUT,datbuf.GetION());
 
                 wr.Create_XML_txt(configer.Dataxml_OUT,datbuf.GetXML());
+
+                wr.Create_Records_txt(configer.Tmi_OUT,datbuf.GetRecords());
             }
         });
 
@@ -61,22 +63,7 @@ public class Main {
         frame.setSize(500,500);
         frame.getContentPane().add(BorderLayout.SOUTH,panel);
         frame.setVisible(true);
-        /*ss.ParceTm();
 
-        Datas.Data_Writer wr = new Datas.Data_Writer();
-
-
-        wr.Create_ION_txt(configer.Dim_OUT,ss.ION_datas);
-
-        wr.Create_XML_txt(configer.Dataxml_OUT,ss.XML_datas);
-
-        */
-
-
-
-
-
-        // Datas.Data_Reader dr = new Datas.Data_Reader("C:\\Users\\mikle\\Desktop\\KNP-173.14.33.58.dat.xml");
     }
 
 
