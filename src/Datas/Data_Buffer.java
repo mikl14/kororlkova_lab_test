@@ -47,9 +47,9 @@ public class Data_Buffer {
         return XML_datas.get(num).GetTextes();
     }
 
-    public void putRecord(TM_base data)
+    public void putRecord(int key,TM_base data)
     {
-        Record_datas.put((int) data.param_number,data);
+        Record_datas.put(key,data);
     }
     public void print_XML()
     {

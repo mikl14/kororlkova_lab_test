@@ -38,6 +38,8 @@ public class Data_Reader
         int byte_counter = 0,counter = 0;
         boolean is_message = false;
         byte[] message_title = new byte[8];
+
+        int count = 0;
         //Tm_message_start mes_start = new Tm_message_start((short)0xffff);
 
         File file = new File(config.Tmi_IN);
@@ -82,10 +84,13 @@ public class Data_Reader
                     record = Tm_dataBuilder.createDataRecord(paramNum, bTime, dim, atr_type, bData);
 
                 }
-                datbuf.putRecord(record);
+                datbuf.putRecord(count,record);
+                count++;
                 //record.print();
 
             }
+            System.out.println(datbuf.GetRecords().size());
+            System.out.println(count);
         }
        catch (IOException e) {
             throw new RuntimeException(e);
