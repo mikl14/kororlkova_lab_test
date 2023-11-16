@@ -1,6 +1,7 @@
 package Tm_dat.Tm_DataRecords;
 
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 
 public class Tm_Code extends DataRecord{
@@ -12,12 +13,17 @@ public class Tm_Code extends DataRecord{
         byte[] buff = Arrays.copyOfRange(data, 4, 8);
         return ByteBuffer.wrap(buff).getInt();
     }
+    private String Decode_Data()
+    {
+        return String.format("%-21s", getData());
+
+    }
 
     public String ToString()
     {
-        return "Номер: "+param_number+" Имя: " + paramName + " Code Данные: "+getData()+" Время: "+ getTimeString();
+        return "Номер: "+param_number+" Имя: " + paramName + " Code Данные: "+Decode_Data()+" Время: "+ getTimeString();
     }
     public void print() {
-        System.out.println("Номер: "+param_number+" Имя: " + paramName + " Code Данные: "+getData()+" Время: "+ getTimeString());
+        System.out.println(this.ToString());
     }
 }

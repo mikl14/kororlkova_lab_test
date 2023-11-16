@@ -86,11 +86,11 @@ public class Data_Reader
                 }
                 datbuf.putRecord(count,record);
                 count++;
-                //record.print();
+                record.print();
 
             }
-            System.out.println(datbuf.GetRecords().size());
-            System.out.println(count);
+            //System.out.println(datbuf.GetRecords().size());
+            //System.out.println(count);
         }
        catch (IOException e) {
             throw new RuntimeException(e);
