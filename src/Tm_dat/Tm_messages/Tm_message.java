@@ -69,4 +69,9 @@ public class Tm_message extends TM_base
         System.out.println(param_number + " " +getTimeString() + " " + type_message + " " + getData());
     }
 
+    @Override
+    public String GetType() {
+        return null;
+    }
+
 }

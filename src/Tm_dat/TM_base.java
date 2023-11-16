@@ -79,4 +79,6 @@ public abstract class TM_base {
 
     public abstract String ToString();
     public abstract void print();
+
+    public abstract String GetType();
 }

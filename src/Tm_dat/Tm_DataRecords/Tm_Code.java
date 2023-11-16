@@ -26,4 +26,6 @@ public class Tm_Code extends DataRecord{
     public void print() {
         System.out.println(this.ToString());
     }
+
+    public String GetType(){return "Code";}
 }

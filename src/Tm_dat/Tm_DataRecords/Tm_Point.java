@@ -15,4 +15,5 @@ public class Tm_Point extends DataRecord
         System.out.println("Номер: "+param_number+" Имя: " + paramName + " point "+" Время: "+ getTimeString());
     }
 
+    public String GetType(){return "Point";}
 }

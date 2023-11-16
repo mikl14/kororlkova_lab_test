@@ -20,4 +20,6 @@ public class Tm_Double extends DataRecord{
     {
         System.out.println("Номер: "+param_number+" Имя: " + paramName + " Double Данные: "+getData()+" Время: "+ getTimeString());
     }
+
+    public String GetType(){return "Double";}
 }

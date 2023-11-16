@@ -27,4 +27,6 @@ public class Tm_Long extends DataRecord {
     {
         System.out.println("Номер: "+param_number+" Имя: " + paramName + " Long Данные: "+getData()+" Время: "+ getTimeString());
     }
+
+    public String GetType(){return "Long";}
 }

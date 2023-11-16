@@ -62,21 +62,59 @@ public class GUI
         JScrollPane scrollPane = new JScrollPane(box);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
+        JCheckBox CodeBox = new JCheckBox("Code");
+        JCheckBox DoubleBox = new JCheckBox("Double");
+        JCheckBox PointBox = new JCheckBox("Point");
+        JCheckBox LongBox = new JCheckBox("Long");
+
+        Panel CheckBoxses = new Panel();
+
         mainPanel.add(scrollPane);
+
+
 
         int count = 0;
         FindButton.addActionListener(new ActionListener() {
+            List<String> checkbox = new ArrayList<>();
             @Override
             public void actionPerformed(ActionEvent e) {
                 info.setText("KNP_pressed");
-                CreateParamWindow(datbuf.FindByList(getSelected()));
+
+
+                if(CodeBox.isSelected()){
+                    checkbox.add("Code");
+                }
+
+                if(LongBox.isSelected()){
+                    checkbox.add("Long");
+                }
+
+                if(PointBox.isSelected()){
+                    checkbox.add("Point");
+                }
+
+                if(DoubleBox.isSelected()){
+                    checkbox.add("Double");
+                }
+
+                CreateParamWindow(datbuf.FindByList(getSelected(),checkbox));
+                checkbox.clear();
 
             }
         });
 
 //        frame.add(mainPanel);
         mainPanel.add(panel, BorderLayout.SOUTH);
+        mainPanel.add(CheckBoxses,BorderLayout.NORTH);
+
+        CheckBoxses.add(frame.add(CodeBox));
+        CheckBoxses.add(frame.add(LongBox));
+        CheckBoxses.add(frame.add(PointBox));
+        CheckBoxses.add(frame.add(DoubleBox));
+
+
         frame.getContentPane().add(mainPanel);
+
         frame.setPreferredSize(new Dimension(350,200));
         frame.pack();
         frame.setLocationRelativeTo(null);
@@ -95,6 +133,8 @@ public class GUI
         return box;
         // Добавление контейнера с чекбоксами в окно
     }
+
+
 
     private List<String> getSelected(){
         List<String> result = new ArrayList<>();

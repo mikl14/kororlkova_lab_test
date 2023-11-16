@@ -58,17 +58,18 @@ public class Data_Buffer {
 
     }
 
-    public List<String> FindByList(List<String> list)
+    public List<String> FindByList(List<String> list,List<String> checklist)
     {
         List<String> list1 = new ArrayList<>();
         for (String str: list)
         {
             for(Map.Entry<Integer,TM_base> entry : Record_datas.entrySet())
             {
-                if(str == entry.getValue().getParamName())
-                {
-                    list1.add(entry.getValue().ToString());
-                    //System.out.println(entry.getValue().ToString());
+                for(String type:checklist) {
+                    if (str.equals(entry.getValue().getParamName()) && type.equals(entry.getValue().GetType())) {
+                        list1.add(entry.getValue().ToString());
+                        //System.out.println(entry.getValue().ToString());
+                    }
                 }
             }
         }

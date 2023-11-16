@@ -39,5 +39,10 @@ public class DataRecord extends TM_base
         System.out.println("Номер: "+param_number+" Имя: " + paramName);
     }
 
+    @Override
+    public String GetType() {
+        return null;
+    }
+
 
 }
