@@ -2,7 +2,9 @@ package Datas;
 
 import Tm_dat.TM_base;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Data_Buffer {
@@ -53,6 +55,24 @@ public class Data_Buffer {
     }
     public void print_XML()
     {
+
+    }
+
+    public List<String> FindByList(List<String> list)
+    {
+        List<String> list1 = new ArrayList<>();
+        for (String str: list)
+        {
+            for(Map.Entry<Integer,TM_base> entry : Record_datas.entrySet())
+            {
+                if(str == entry.getValue().getParamName())
+                {
+                    list1.add(entry.getValue().ToString());
+                    //System.out.println(entry.getValue().ToString());
+                }
+            }
+        }
+        return list1;
 
     }
 

@@ -43,6 +43,8 @@ public abstract class TM_base {
         this.param_number = param_number;
     }
 
+    public String getParamName(){return paramName;}
+
 
     public void setParam_time(int param_time) {
         this.param_time = param_time;

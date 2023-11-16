@@ -86,7 +86,7 @@ public class Data_Reader
                 }
                 datbuf.putRecord(count,record);
                 count++;
-                record.print();
+              //  record.print();
 
             }
             //System.out.println(datbuf.GetRecords().size());
