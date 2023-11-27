@@ -57,9 +57,6 @@ public class Tm_message extends TM_base
         }
         return "TECH DATA ERROR";
     }
-
-
-
     public String ToString() {
         return param_number + " " +getTimeString() + " " + type_message + " " + getData();
     }

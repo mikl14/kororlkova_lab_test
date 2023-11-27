@@ -1,11 +1,7 @@
 package Tm_dat.Tm_DataRecords;
 
-import Datas.Data_Buffer;
-import Tm_dat.TM_base;
-
 import java.nio.ByteBuffer;
 import java.util.Arrays;
-import java.util.Objects;
 
 public class Tm_Long extends DataRecord {
 
@@ -27,8 +23,6 @@ public class Tm_Long extends DataRecord {
     {
         System.out.println("Номер: "+param_number+" Имя: " + paramName + " Long Данные: "+getData()+" Время: "+ getTimeString());
     }
-
-
 
     public String GetType(){return "Long";}
 }

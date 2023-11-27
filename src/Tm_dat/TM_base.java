@@ -1,6 +1,6 @@
 package Tm_dat;
 
-import Datas.Data_Buffer;
+import Datas.ReadXML;
 
 import java.nio.ByteBuffer;
 
@@ -15,8 +15,6 @@ public abstract class TM_base {
 
     protected String paramName;
 
-    Data_Buffer databuf = new Data_Buffer();
-
     public boolean isTech;
 
     public TM_base(byte[] _paramNum, byte[] _time,Boolean _isTech)
@@ -24,7 +22,7 @@ public abstract class TM_base {
         param_number  = ByteBuffer.wrap(_paramNum).getShort();
         param_time = ByteBuffer.wrap(_time).getInt();
         if(param_number > -1) {
-            paramName = databuf.getParamName(param_number);
+            paramName = ReadXML.getParamName(param_number);
         }
         isTech = _isTech;
     }
@@ -35,27 +33,6 @@ public abstract class TM_base {
         param_time = mes.param_time;
         size = mes.size;
         isTech = mes.isTech;
-    }
-
-
-
-    public void setParam_number(short param_number) {
-        this.param_number = param_number;
-    }
-
-    public String getParamName(){return paramName;}
-
-
-    public void setParam_time(int param_time) {
-        this.param_time = param_time;
-    }
-
-    public void setSize(byte size) {
-        this.size = size;
-        if(size > 255)
-        {
-            throw new RuntimeException("ERROR SIZE");
-        }
     }
 
     protected String getTimeString(){

@@ -1,31 +1,23 @@
 import Config.Config;
-import Datas.Data_Buffer;
-import Datas.Data_Reader;
-import Datas.Data_Writer;
-import Datas.Telemetry_data;
-import Tm_dat.TM_base;
+import Datas.*;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class GUI
 {
     Config config = new Config();
-    Data_Buffer datbuf = new Data_Buffer();
-    Data_Writer datawriter = new Data_Writer(config);
 
     Box box;
-    JScrollPane jScrollPane;
     public GUI()
     {
         CreateMainWindows();
-
-        //CreateParamWindows();
     }
 
     void CreateMainWindows()
@@ -42,25 +34,22 @@ public class GUI
         Config config = new Config();
         config.print();
 
-        Data_Reader data_reader = new Data_Reader(config);
-        data_reader.Xml_Read_data();
-        data_reader.Read_Demention();
-        data_reader.ParceTm();
+        ReadTMI.config = config;
+        ReadXML.config = config;
+        ReadDim.config = config;
+
+        ReadXML.Xml_Read_data();
+        ReadDim.Read_Demention();
+        ReadTMI.ParceTm();
 
         JLabel info = new JLabel("last pressed button");
         panel.add(info);
-//        Data_Writer wr = new Data_Writer();
-//        wr.Create_ION_txt(config.Dim_OUT,datbuf.GetION());
-//        wr.Create_XML_txt(config.Dataxml_OUT,datbuf.GetXML());
-//        wr.Create_Records_txt(config.Tmi_OUT,datbuf.GetRecords());
-
 
         JPanel mainPanel = new JPanel();
         mainPanel.setLayout(new BorderLayout());
 
        box = CreateCheckboxList();
 
-       // textArea.setCaretPosition(0);
         JScrollPane scrollPane = new JScrollPane(box);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
@@ -74,8 +63,6 @@ public class GUI
         mainPanel.add(scrollPane);
 
 
-
-        int count = 0;
         FindButton.addActionListener(new ActionListener() {
             List<String> checkbox = new ArrayList<>();
             @Override
@@ -99,7 +86,7 @@ public class GUI
                     checkbox.add("Double");
                 }
 
-                CreateParamWindow(datbuf.FindByList(getSelected(),checkbox));
+                CreateParamWindow(ReadTMI.FindByList(getSelected(),checkbox));
                 checkbox.clear();
 
             }
@@ -127,7 +114,7 @@ public class GUI
     {
         Box box = Box.createVerticalBox();
 
-        List<Telemetry_data> buttons = datbuf.mapToList(datbuf.GetXML());
+        List<Telemetry_data> buttons = ReadXML.mapToList(ReadXML.GetXML());
 
         for (Telemetry_data entry : buttons)
         {
@@ -138,8 +125,6 @@ public class GUI
         // Добавление контейнера с чекбоксами в окно
     }
 
-
-
     private List<Integer> getSelected(){
         List<Integer> result = new ArrayList<>();
 
@@ -147,7 +132,7 @@ public class GUI
         for(int i = 0; i < size; ++i){
             JCheckBox checkBox = (JCheckBox) box.getComponent(i);
             if(checkBox.isSelected()){
-                result.add(datbuf.findXMlbyName(checkBox.getText()));
+                result.add(ReadXML.findXMlbyName(checkBox.getText()));
             }
         }
         return result;
@@ -168,16 +153,10 @@ public class GUI
 
         // Создание кнопок "OK" и "Cancel"
         JButton SaveButton = new JButton("Save ");
-        //JButton cancelButton = new JButton("Cancel");
-
-
-
 
         // Создание панели для кнопок
         JPanel buttonPanel = new JPanel();
         buttonPanel.add(SaveButton);
-       // buttonPanel.add(cancelButton);
-
         // Создание окна и добавление контейнера со строками и панели с кнопками
         JFrame frame = new JFrame("Scrollable Container");
         frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
@@ -188,12 +167,30 @@ public class GUI
         SaveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //CreateParamWindow(datbuf.FindByList(getSelected()));
-                datawriter.Create_List_txt(textArea.getText());
+
+                Create_List_txt(textArea.getText());
             }
         });
     }
 
 
+    public void Create_List_txt(String text)
+    {
+        try
+        {
+            BufferedWriter writer = new BufferedWriter(new FileWriter(config.Tmi_OUT));
 
+
+
+            writer.write(text);
+            writer.newLine();
+
+            writer.close();
+
+        }
+        catch (Exception e)
+        {
+            System.out.println(e);
+        }
+    }
 }

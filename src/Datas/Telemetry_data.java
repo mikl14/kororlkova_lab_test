@@ -74,9 +74,6 @@ public class Telemetry_data {
         {
             str_buf += str + ",";
         }
-        //str_buf += str_buf.substring(0,str_buf.length()-1);
         return (Param_name + " " + Param_number +" "+Description +'\n' + str_buf);
-
-        //System.out.println( str_buf );
     }
 }
