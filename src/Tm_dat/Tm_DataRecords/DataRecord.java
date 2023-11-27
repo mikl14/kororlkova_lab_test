@@ -13,10 +13,11 @@ import java.util.Map;
 public class DataRecord extends TM_base
 {
     Data_Buffer databuf = new Data_Buffer();
-
     String razmernost;
 
     byte[] data;
+
+
 
     public DataRecord(byte[] _paramNum, byte[] _time, byte _size,byte _atrib_type,byte[] _data) {
         super(_paramNum, _time, false);

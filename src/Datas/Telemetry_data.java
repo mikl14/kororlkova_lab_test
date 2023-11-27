@@ -3,8 +3,7 @@ package Datas;
 import java.util.*;
 
 public class Telemetry_data {
-   public String Param_name;
-
+    public String Param_name;
     public  int Param_number;
     public String[] Textes_datas ;
 

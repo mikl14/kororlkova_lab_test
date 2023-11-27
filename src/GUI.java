@@ -3,6 +3,7 @@ import Datas.Data_Buffer;
 import Datas.Data_Reader;
 import Datas.Data_Writer;
 import Datas.Telemetry_data;
+import Tm_dat.TM_base;
 
 import javax.swing.*;
 import java.awt.*;
@@ -40,6 +41,7 @@ public class GUI
 
         Config config = new Config();
         config.print();
+
         Data_Reader data_reader = new Data_Reader(config);
         data_reader.Xml_Read_data();
         data_reader.Read_Demention();
@@ -125,10 +127,12 @@ public class GUI
     {
         Box box = Box.createVerticalBox();
 
-        for (Map.Entry<Integer, Telemetry_data> entry : datbuf.GetXML().entrySet())
+        List<Telemetry_data> buttons = datbuf.mapToList(datbuf.GetXML());
+
+        for (Telemetry_data entry : buttons)
         {
-            JCheckBox checkBox1 = new JCheckBox(entry.getValue().Param_name);
-            box.add(checkBox1);
+                JCheckBox checkBox1 = new JCheckBox(entry.Param_name);
+                box.add(checkBox1);
         }
         return box;
         // Добавление контейнера с чекбоксами в окно
@@ -136,18 +140,19 @@ public class GUI
 
 
 
-    private List<String> getSelected(){
-        List<String> result = new ArrayList<>();
+    private List<Integer> getSelected(){
+        List<Integer> result = new ArrayList<>();
 
         int size = box.getComponentCount();
         for(int i = 0; i < size; ++i){
             JCheckBox checkBox = (JCheckBox) box.getComponent(i);
             if(checkBox.isSelected()){
-                result.add(checkBox.getText());
+                result.add(datbuf.findXMlbyName(checkBox.getText()));
             }
         }
         return result;
     }
+
 
     public void CreateParamWindow(List<String> list)
     {

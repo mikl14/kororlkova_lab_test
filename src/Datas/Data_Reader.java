@@ -84,7 +84,9 @@ public class Data_Reader
                     record = Tm_dataBuilder.createDataRecord(paramNum, bTime, dim, atr_type, bData);
 
                 }
-                datbuf.putRecord(count,record);
+                //datbuf.putRecord(count,record);
+
+                datbuf.putRecord(record.param_number,record);
                 count++;
               //  record.print();
 
