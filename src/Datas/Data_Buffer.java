@@ -24,13 +24,6 @@ public class Data_Buffer {
         return XML_datas;
     }
 
-    public Map<Integer,String> GetION()
-    {
-        return ION_datas;
-    }
-
-    public  Map<Integer,List<TM_base>> GetRecords(){return Record_datas;}
-
     public String getRazm(int key)
     {
         return ION_datas.get(key);
@@ -39,11 +32,6 @@ public class Data_Buffer {
     public String getParamName(int key)
     {
         return XML_datas.get(key).Param_name;
-    }
-
-    public static String getText(int num){
-
-        return XML_datas.get(num).GetTextes();
     }
 
     public void putRecord(int key,TM_base data)
@@ -59,10 +47,6 @@ public class Data_Buffer {
             list.add(data);
             Record_datas.put(key,list);
         }
-
-    }
-    public void print_XML()
-    {
 
     }
 
@@ -105,18 +89,6 @@ public class Data_Buffer {
                 }
             }
 
-         /*   for(Map.Entry<Integer,TM_base> entry : Record_datas.entrySet())
-            {
-                for(String type:checklist) {
-                    if (str.equals(entry.getValue().getParamName()) && type.equals(entry.getValue().GetType())) {
-
-                        List<String> values = Record_datas.get();
-                        list1.add(entry.getValue().ToString());
-
-                        //System.out.println(entry.getValue().ToString());
-                    }
-                }
-            }*/
         }
         return list1;
 

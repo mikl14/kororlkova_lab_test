@@ -33,14 +33,6 @@ public class Data_Reader
 
     public void ParceTm()
     {
-        TM_base tm;
-        byte prev_byte = 0;
-        int byte_counter = 0,counter = 0;
-        boolean is_message = false;
-        byte[] message_title = new byte[8];
-
-        int count = 0;
-        //Tm_message_start mes_start = new Tm_message_start((short)0xffff);
 
         File file = new File(config.Tmi_IN);
 
@@ -84,41 +76,13 @@ public class Data_Reader
                     record = Tm_dataBuilder.createDataRecord(paramNum, bTime, dim, atr_type, bData);
 
                 }
-                //datbuf.putRecord(count,record);
-
                 datbuf.putRecord(record.param_number,record);
-                count++;
-              //  record.print();
 
             }
-            //System.out.println(datbuf.GetRecords().size());
-            //System.out.println(count);
         }
        catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-    public void Read_KNP(){
-
-        try {
-            File file = new File(config.Tmi_IN);
-            FileInputStream fileInputStream = new FileInputStream(file);
-
-            bytes = fileInputStream.readAllBytes();
-
-            fileInputStream.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        values = new int[bytes.length];
-
-        for(int i = 0 ; i < bytes.length;i++)
-        {
-            values[i] = bytes[i] &  0xFF;
-        }
-
-
     }
 
     public void Read_Demention()

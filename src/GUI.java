@@ -25,7 +25,6 @@ public class GUI
     {
         CreateMainWindows();
 
-        //CreateParamWindows();
     }
 
     void CreateMainWindows()
@@ -49,10 +48,6 @@ public class GUI
 
         JLabel info = new JLabel("last pressed button");
         panel.add(info);
-//        Data_Writer wr = new Data_Writer();
-//        wr.Create_ION_txt(config.Dim_OUT,datbuf.GetION());
-//        wr.Create_XML_txt(config.Dataxml_OUT,datbuf.GetXML());
-//        wr.Create_Records_txt(config.Tmi_OUT,datbuf.GetRecords());
 
 
         JPanel mainPanel = new JPanel();
@@ -60,7 +55,6 @@ public class GUI
 
        box = CreateCheckboxList();
 
-       // textArea.setCaretPosition(0);
         JScrollPane scrollPane = new JScrollPane(box);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
