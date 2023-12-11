@@ -24,14 +24,6 @@ public class ReadTMI
 
     public static void ParceTm()
     {
-        TM_base tm;
-        byte prev_byte = 0;
-        int byte_counter = 0,counter = 0;
-        boolean is_message = false;
-        byte[] message_title = new byte[8];
-
-        int count = 0;
-        //Tm_message_start mes_start = new Tm_message_start((short)0xffff);
 
         File file = new File(config.Tmi_IN);
 
@@ -76,7 +68,6 @@ public class ReadTMI
 
                 }
                 putRecord(record.param_number,record);
-                count++;
             }
         }
        catch (IOException e) {
