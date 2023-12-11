@@ -1,0 +1,5 @@
+<TmData>
+    <tmi in ="YOUR PATH"  out = "res.txt"/>
+    <dataxml in ="YOUR PATH" out = "numName.txt"/>
+    <dim in ="YOUR PATH" out = "ion.txt"/>
+</TmData>
